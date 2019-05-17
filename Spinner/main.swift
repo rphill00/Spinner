@@ -22,7 +22,7 @@ func randomNumberGenerator(maxNumber: Double) -> Double {
 func spinWheel(strengthFactor: Int, start: Double) -> Double {
     // return a random number multiplied by the strengthFactor
     let distance: Double = randomNumberGenerator(maxNumber: 360) * Double(strengthFactor)
-    print ("Distance from original spot: \(distance)")
+    print ("Distance from original spot: \(String(format: "%0.02f", distance))")
     let finalSpot = start + distance
     return finalSpot
 }
@@ -44,7 +44,7 @@ if let inputSections = Int(readLine()!){
     numOfSections = Double(inputSections)
 }
 
-print ("We'll be using \(numOfSections) sections")
+print ("We'll be using \(String(format: "%0.0f", numOfSections)) sections")
 
 // Calculate the lines for the sections
 let breakPoint: Double = 360/numOfSections
@@ -60,7 +60,7 @@ let breakPoint: Double = 360/numOfSections
     72-72=0
 */
 
-print ("Breakpoint: \(breakPoint)")
+print ("Breakpoint: \(String(format: "%0.02f", breakPoint))")
 
 // define Array with length = # of breakpoints
 
@@ -70,9 +70,11 @@ for index in 0...Int(numOfSections - 1) {
     arrBreakPoints.insert(Double((index + 1)) * breakPoint, at: index)
 }
 
+/*
 for item in arrBreakPoints {
     print ("stop: \(String(format: "%.02f", item))")
 }
+ */
 
 position = Double(randomNumberGenerator(maxNumber: 360))
 
@@ -91,7 +93,6 @@ repeat {
     print ("Strength: \(strength)")
     
     spotOnWheel = spinWheel(strengthFactor: Int(strength), start: position)
-    print ("New location: \(spotOnWheel)")
     if (spotOnWheel > 360) {
         // can determine how many loops
         // and end location of spinner
@@ -100,27 +101,27 @@ repeat {
         spotOnWheel = spotOnWheel.truncatingRemainder(dividingBy: 360)
     }
     
-    print ("Location on wheel after spin: \(spotOnWheel)")
+    print ("Location on wheel after spin: \(String(format: "%0.02f", spotOnWheel))")
     // Determine which section it's in
     
     var sectionMarker = 0
     
+    print ("Section on the wheel: ")
     // Loop through and find the section the spinner landed in
     for index in (0...(arrBreakPoints.count - 1)).reversed(){
-        print ("spotOnWheel: \(spotOnWheel)")
-        print ("Slice of the pie \(index + 1): \(String(format: "%.02f", arrBreakPoints[index]))")
+        //print ("spotOnWheel: \(spotOnWheel)")
+        //print ("Slice of the pie \(index + 1): \(String(format: "%.02f", arrBreakPoints[index]))")
         if Double(spotOnWheel) < arrBreakPoints[index]{
             sectionMarker = index + 1
+            print (" \(sectionMarker),", terminator: "")
         }else{
             break
         }
     }
     
-    print ("Section on the wheel: \(sectionMarker)")
+    print ("*** \(sectionMarker) ***")
     
     position = Double(spotOnWheel)
-    
-    // need to add a loop to keep playing.  Mark the spot on the wheel and spin again
     
     print ("Do you want to spin again (y/n)?")
     
